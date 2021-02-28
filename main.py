@@ -25,5 +25,12 @@ plt.imshow(out)
 # returns a compiled model
 # identical to the previous one
 #model = load_model('my_model.h5')
+#import keras
+#import tensorflow as tf
+
+
+#config = tf.ConfigProto( device_count = {'GPU': 1 , 'CPU': 56} ) 
+#sess = tf.Session(config=config) 
+#keras.backend.set_session(sess)
 
 print(model.evaluate_segmentation( inp_images_dir="dataset1/images_prepped_test/"  , annotations_dir="dataset1/annotations_prepped_test/" ) )
