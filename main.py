@@ -1,11 +1,24 @@
-from keras_segmentation.models.unet import vgg_unet
+import keras
 
-model = vgg_unet(n_classes=51 ,  input_height=416, input_width=608  )
+import tensorflow as tf
+
+physical_devices = tf.config.list_physical_devices('GPU')
+try:
+  print("yes")
+  tf.config.experimental.set_memory_growth(physical_devices[0], True)
+except:
+  # Invalid device or cannot modify virtual devices once initialized.
+  pass
+
+from keras_segmentation.models.segnet import segnet
+from keras.models import load_model
+
+model = segnet(n_classes=51 ,  input_height=416, input_width=608  )
 
 model.train(
     train_images =  "dataset1/images_prepped_train/",
     train_annotations = "dataset1/annotations_prepped_train/",
-    checkpoints_path = "/tmp/vgg_unet_1" , epochs=5
+    checkpoints_path = "/tmp/segnet_1" , epochs=3
 )
 
 out = model.predict_segmentation(
@@ -16,6 +29,8 @@ out = model.predict_segmentation(
 import matplotlib.pyplot as plt
 plt.imshow(out)
 
+
+model.save('my_model.h5')
 # evaluating the model 
 #from keras.models import load_model
 
